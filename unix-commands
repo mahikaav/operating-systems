@@ -1,0 +1,209 @@
+DATE Commands
+
+$ date +"%a" 
+Used to display abbreviated weekday name 
+
+$ date +"%A" 
+Used to display full weekday name 
+
+$ date +"%b" 
+Used to display abbreviated month name 
+
+$ date +"%B" 
+Used to display full month name 
+
+$ date +"%c" 
+Used to display current date and time 
+
+$ date +"%C" 
+Used to display century in decimal format 
+
+$ date +"%d" 
+Used to display day part of the date 
+
+$ date +"%D" 
+Used to display the date is mm/dd/yyyy format 
+
+$ date +"%h" 
+Used to display abbreviated month name 
+
+$ date +"%H" 
+Used to display the hour in decimal format
+
+$ date +"%m" 
+Used to display month of the year in decimal format 
+
+$ date +"%p" 
+Used to display whether it is AM or PM. 
+
+$ date +"%S" 
+Used to display how many seconds have passed in the current minute 
+
+$ date +"%U" 
+Used to display week of the year 
+
+$ date +"%Y" 
+Used to display year in two digits 
+
+$ date +"%y" 
+Used to display full year in four digits 
+
+$ date +"%Z" 
+Used to display timezone 
+
+$ date +”%H-%M-%S” 
+Used to display time in HOUR, MINUTE, SECOND format
+
+CALENDAR commands
+$ cal <year> 
+Used to display entire calendar of the specified year 
+$ cal <month> <year> 
+Used to display calendar of the specific month in the specified year
+
+$cal 
+Used to display calendar of current month in currentyear
+
+ECHO COMMANDS 
+$ echo <text> 
+Used to display the entered text. Entered text can be given in double quotes or normally without them 
+
+$ echo $HOME 
+Used to display the user’s home directory 
+
+BANNER COMMAND 
+$ banner <text> 
+Used to display the given text in a banner form. (Eg taken: to display “Mahi”)
+
+WHO Commands 
+$ who 
+Displays the login information of all users including their IP address, Terminal NUmber and user name 
+
+$who -H 
+Displays the same information as the $ who command but with headings such as USER, LINE, WHEN, etc. 
+
+$ who -b 
+Displays the last booting time in month, day, hour and minute format 
+
+$ tty 
+Displays the terminal name 
+
+$ bc 
+Used to run a basic calculator. It works normally for addition and subtraction, displaying numbers after decimals but in multiplication it only shows one digit after the decimal. In division it displays the nearest integer rounded down if the quotient isn’t a whole number. Ctrl+d is used to quit the calculator and return to normal terminal functions/commands.
+
+$ clear 
+Used to clear the screen. Even though the screen turns blank, the command history can still be accessed using $ history 
+$ history 
+Used to access command history of the terminal (all sessions)
+
+MAN Commands 
+$ man <command name> 
+Used to access the help manual. It provides a detailed view of the command which includes NAME, SYNOPSIS, DESCRIPTION, SEE ALSO, HISTORY and AUTHORS. 
+
+MANIPULATION Commands 
+$ tput longname 
+Used to display the complete name of the terminal 
+
+$ tput smso 
+Used to change the background colour to black and text colour to white 
+$ tput rmso 
+Used to change the background colour to white and text colour to black
+
+$ tput cols 
+Used to display the number of columns in the terminal 
+
+LIST Commands 
+$ ls 
+Used to display the contents of a directory. By default, the ls command displays all information in alphabetic order by file name. 
+
+$ ls - a 
+Used to display the files of the current directory in alphabetical order. In Linux, hidden files start with . (dot) symbol and they are not visible in the regular directory.The (ls -a) command will enlist the whole list of the current directory including the hidden files. 
+
+$ ls -c 
+Used to display the files column-wise order 
+
+ls -d 
+Used to display all the directories 
+
+ls -m 
+Used to display all the files separated by commas 
+
+ls -p 
+It is used to identify the directory easily by marking the directories with a slash (/) line sign.
+
+ls -r 
+Used to display the files in reverse alphabetical order. 
+
+ls -f 
+Used to display the files based on the list modification date 
+
+ls -x 
+Used in column-wise sorted order
+
+DIRECTORY Commands 
+$ pwd 
+Used to display the complete path of the present working directory or the current working directory. 
+
+$ cd <directory name> 
+Used to change or modify the current working directory. ‘cd’ stands for Change Directory 
+
+$ cd / 
+It is used to navigate directory to the entire system's root directory from the current working directory. 
+
+$ cd .. 
+It is used to move back to previous directory 
+
+$ mkdir <directory name> 
+Allows users to create a directory in the current directory, if it does not already exist. 
+On using ls command, it will show nothing because the new directory is empty 
+
+$ mkdir <directory name1> < directory name2> 
+Used to create subdirectories simultaneously at once.
+
+$ rmdir <directory name> 
+Used to remove an empty directory in the current directory. Make sure to navigate out of the directory to be deleted first or it won’t work.  
+
+FILE Commands 
+$ cat <filename> 
+cat stands for concatenate. It can be used to create a new file in the current directory. From the next line, we can begin typing the contents of the file. To stop, we need to use Ctrl + D. If the filename is directly typed into the terminal afterwards, the contents of the file will be displayed. With the $cat -n <filename> option we can see the line numbers of a file. Each line will be displayed with a corresponding number. 
+Example: to create a text file with name test1 with contents 
+winter sem 
+22-23 
+we use $cat >test1.txt
+
+$ cp <source filename> <destination filename> 
+This is used to copy files from one location to another. It can be used even if the file in which contents are to be copied doesn't exist as of yet because the copying will create a new file by default. If it already exists the contents will be overwritten. $cp -i <filename> works the same as above except it displays a warning before the copying takes place. The copying will only be continued if we click 'Y', else it won't. This can be used in high priority files so important information isn't lost. 
+Example: to copy the contents of test1.txt (exists in the directory) to choiyeonjun.txt (doesn't exist in the directory) we will use the command $ cp test1.txt choiyeonjun.txt. When we use ls to display the contents of the directory we will see the new file choiyeonjun.txt also listed with the previously existing ones. The original file is retained as it is in the directory. 
+
+$ mv <source filename> <destination filename> 
+mv command is used to move files and directories from one directory to another. It can also be used to rename an existing file or directory using the command $mv oldname newname. It also allows simultaneous movement of files to a directory by using the command $ mv filename1 filename2 filename3 directory name. 
+Example: here the contents of choiyeoncc.txt is moved to choiyeonjun.txt. After the move is complete, when we use ls to list all files in the directory, we see that choiyeoncc.txt is no longer listed. This is because the file gets removed after the move is complete 
+
+$ rm <filename> 
+The rm command removes the entries for a specified file, group of files, or certain select files from a list within a directory. User confirmation, read permission, and write permission are not required before a file is removed when you use the rm command. 
+Example: to remove choiyeonjun.txt from the directory we use $rm choiyeonjun.txt and when we use ls to see the contents of the directory we see that it's no longer present.
+
+$rm -i <filename> 
+Works the same as $rm, except because of the -i there will be a warning message before the file is deleted. The file will be deleted only if 'Y' is pressed, otherwise it won't. It can be used in high priority files to make sure there are no accidental deletions of important information. 
+$rm * 
+This is used to directly delete all the files in the directory. When ls is used afterwards, we see that the directory is empty and no files are listed 
+For example: When the current directory is 21BCE5715 and we use $rm * command all files are removed. When we use ls afterwards to view the contents of the directory, we see that nothing is displayed because it's empty. 
+
+FILTERS and PIPES Commands 
+If these are the contents of the original file jargon.txt which has been created.
+$ head <filename> 
+Used to display the first 10 lines of the mentioned file. If head is not used then the whole file content will be displayed. 
+
+$ tail <filename> 
+Used to display the last 10 lines of the mentioned file. 
+
+$ grep <pattern> <filename> 
+Used to search for a pattern in the existing file mentioned. All lines in which the pattern occurred will be displayed and the required pattern will be highlighted. 
+For example, to search for a pattern 'Seat' in file jargon.txt, we use $grep Step jargon.txt and the output will be as follows 
+
+$ ping <host name> or $ ping <IP address> 
+Used to find the internet speed, how much data is being sent, etc for the mentioned domain. It will continue till Ctrl + d is given to stop. 
+
+$ gcc <filename> 
+gedit is used to create and edit the text files. We must use this command in the terminal to open the file to write our code in. Once the lines have been typed and the file is complete, we need to save it with the right extension. In this case, we wrote a C program to swap two numbers, so we saved the file with the extension .c
+GCC stands for GNU Compiler Collections and is used to compile C and C++ language files. 
+The program is compiled as a filename.c file. And the output is given as a.out file. We use ./a.out to display the output of the c file.
