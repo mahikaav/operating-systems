@@ -1,0 +1,130 @@
+// producer consumer problem 
+#include <stdio.h>
+#include <stdlib.h>
+
+int mutex = 1, full = 0, empty = 5, x = 0;
+
+int wait(int s) {
+    return --s;
+}
+
+int signal(int s) {
+    return ++s;
+}
+
+void producer() {
+    mutex = wait(mutex);
+    full = signal(full);
+    empty = wait(empty);
+    x++;
+    printf("\nProducer produces the item %d", x);
+    mutex = signal(mutex);
+}
+
+void consumer() {
+    mutex = wait(mutex);
+    full = wait(full);
+    empty = signal(empty);
+    printf("\nConsumer consumes item %d", x);
+    x--;
+    mutex = signal(mutex);
+}
+
+int main() {
+    int n;
+    printf("\n1.Producer\n2.Consumer\n3.Exit");
+
+    while (1) {
+        printf("\nChoose producer or consumer:");
+        scanf("%d", &n);
+
+        switch (n) {
+            case 1:
+                if ((mutex == 1) && (empty != 0))
+                    producer();
+                else
+                    printf("Buffer is full. Producer has to wait");
+                break;
+            case 2:
+                if ((mutex == 1) && (full != 0))
+                    consumer();
+                else
+                    printf("Buffer is empty. Consumer has to wait\n");
+                break;
+            case 3:
+                exit(0);
+                break;
+        }
+    }
+
+    return 0;
+}
+
+// reader writer problem 
+#include <stdio.h>
+#include <stdlib.h>
+
+int wrt = 1, mutex = 1, readcount = 0;
+
+void signal(int *s) {
+    (*s)++;
+}
+
+void wait(int *s) {
+    while (*s <= 0)
+        ;
+    (*s)--;
+}
+
+void write() {
+    if (wrt == 1 && mutex == 1 && readcount <= 0) {
+        printf("writing\n");
+        wrt = 0;
+        mutex = 0;
+    } else if (readcount > 0) {
+        printf("A reader is inside. Writer not allowed\n");
+        signal(&mutex);
+    } else {
+        printf("A writer is already inside. Another writer not allowed.\n");
+        signal(&mutex);
+    }
+}
+
+void read() {
+    if (mutex == 1 && wrt == 1) {
+        readcount++;
+        printf("%d readers are currently reading\n", readcount);
+    } else if (wrt == 0) {
+        printf("Writer is currently inside. Reading not allowed\n");
+    }
+}
+
+int main() {
+    wrt = 1;
+    mutex = 1;
+    readcount = 0;
+    int s;
+    printf("1.Writer\n2.Reader\n3.Exit\n");
+
+    do {
+        printf("Select Option:\n");
+        scanf("%d", &s);
+        switch (s) {
+            case 1: {
+                write();
+                break;
+            }
+            case 2: {
+                read();
+                break;
+            }
+            case 3: {
+                printf("Exited\n");
+                exit(0);
+                break;
+            }
+        }
+    } while (s < 3);
+
+    return 0;
+}
