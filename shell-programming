@@ -1,0 +1,171 @@
+// Q1) Greatest among 3 numbers
+
+#!/bin/bash
+ echo "enter the number" 
+ read num
+ fact = 1
+ i = num
+ while [ $i -gt 1 ]
+ do
+ $fact = $fact * $i;
+ $i = $i -1 ;
+ done
+ echo $fact
+echo "enter num1"
+read num1
+echo "enter num2"
+read num2
+echo "enter num3"
+read num3
+if [ $num1 -gt $num2 ]  &&  [ $num1 -gt $num3 ]
+then echo "$num1 is the greatest"
+elif [ $num2 -gt $num3 ] && [ $num2 -gt $num1 ]
+then echo "$num2 is the greatest"
+else echo "$num3 is the greatest"
+fi
+
+// 2) Factorial of a number
+
+#!/bin/bash
+ echo "enter the number" 
+ read num
+ fact = 1
+ i = num
+ while [ $i -gt 1 ]
+ do
+ $fact = $fact * $i
+ $i = $i -1
+ done
+ echo $fact
+
+ // 3) Sum of odd numbers upto a specified number
+
+#!/bin/bash
+echo "enter the number"
+read num
+x=1
+s=0
+while [ $x -lt $num ]
+do 
+s=$((s+x))
+x=$((x+2))
+done
+echo $s
+
+// 4) Generation of fibonacci numbers
+
+#!/bin/bash
+
+echo "enter number"
+read num
+p=-1
+q=1
+i=1
+echo "the sequence is "
+while [ $i -le $num ]
+do
+r=$((p+q))
+p=$q
+q=$r
+i=$((i+1))
+echo $r
+done
+
+// 5) Implement the arithmetic calculator 
+
+#!/bin/bash
+echo "Enter number1"
+read num1
+echo "Enter number2"
+read num2
+echo "Enter operator"
+read op
+case $op in
+	 +) ans=`expr $num1 + $num2`
+		echo "sum is $ans";;
+		
+	 -) ans=`expr $num1 - $num2`
+            echo "difference is $ans";;
+            
+	 x) ans=`expr $num1 \* $num2`
+            echo "product is $ans";;
+            
+	 /) ans=`expr $num1 / $num2`
+            echo "quotient is $ans";;
+esac
+
+// 6) Write a Shell program to find the largest digit of a number
+
+#!/bin/bash
+echo "enter number"
+read num
+max=0
+while [ $num -gt 0 ]
+do 
+r=$((num%10))
+num=$((num/10))
+if [ $r -gt $max ]
+then max=$r
+else max=$max
+fi
+done
+echo "greatest digit is $max"
+
+// 7) Check whether the given string is a palindrome or not.
+
+#!/bin/bash
+echo "enter string"
+read str
+reverse=""
+len=${#str}
+for (( i=$len-1; i>=0; i--))
+do
+	reverse="$reverse${str:$i:1}"
+done
+if [ $str == $reverse ]
+then 
+	echo "$str is palindrome"
+else 
+	echo "$str is not palindrome"
+fi
+
+// 8) Write a Shell program to find out the reverse of a given number and check if it is same as original number 
+
+#!/bin/bash
+echo "enter number"
+read num
+rev=0
+temp=$num
+while [ $num -gt 0 ]
+do
+rev=$((rev*10))
+k=$((num%10))
+rev=$((rev+k))
+num=$((num/10))
+done
+echo "reversed number is $rev"
+if [ $temp -eq $rev ]
+then echo "original number and reversed number are the same"
+else echo "original number and reversed number are not the same"
+fi
+
+// 9) Write a Shell program for quadratic equations.
+
+#!/bin/bash
+echo "Enter the roots of quadratic equation"
+read root1
+read root2
+alpha=$((root1+root2))
+beta=$((root1*root2))
+echo "The quadratic equation formed from the roots is = x^2+($alpha)x+$beta"
+
+// 10) Write a Shell program to check whether the given number is ODD or EVEN.
+
+#!/bin/bash
+echo "enter number" 
+read num
+rem=$((num%2))
+if [ $rem -eq 0 ]
+then echo "$num is even"
+else echo "$num is odd"
+fi
