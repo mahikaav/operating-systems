@@ -1,0 +1,155 @@
+// Q) Write a menu driven C program to implement dynamic storage allocation using first fir, best fit and worst fit algorithms. Calculate and print internal and external fragments in each of the algorithms.
+
+#include <stdio.h>
+
+void firstfit(int memor[], int process_size[], int part_num, int process_num) {
+    int interFrag[part_num];
+    for (int i = 0; i < part_num; i++) {
+        interFrag[i] = memor[i];
+    }
+
+    int allocation[part_num];
+    for (int i = 0; i < part_num; i++) {
+        allocation[i] = -1;
+    }
+
+    int flags[part_num];
+    int external_frag = 0;
+
+    for (int i = 0; i < process_num; i++)
+        for (int j = 0; j < part_num; j++)
+            if (flags[j] != 1 && memor[j] >= process_size[i]) {
+                allocation[j] = i;
+                interFrag[j] -= process_size[i];
+                flags[j] = 1;
+                external_frag += interFrag[j];
+                break;
+            }
+
+    printf("\nblock size\tprocess size.\tinternal fragmentation");
+    for (int i = 0; i < part_num; i++) {
+        printf("\n%d\t", memor[i]);
+        if (flags[i] == 1) {
+            printf("%d\t%d", process_size[i], interFrag[i]);
+        } else {
+            printf("Not allocated");
+            external_frag += interFrag[i];
+        }
+    }
+    printf("\nexternal fragmentation = %d\n", external_frag);
+}
+
+void ascending(int array[], int size) {
+    for (int step = 1; step < size; step++) {
+        int key = array[step];
+        int j = step - 1;
+        while (key < array[j] && j >= 0) {
+            array[j + 1] = array[j];
+            --j;
+        }
+        array[j + 1] = key;
+    }
+}
+
+void bestfit(int memor[], int process_size[], int part_num, int process_num) {
+    ascending(memor, part_num);
+    firstfit(memor, process_size, part_num, process_num);
+}
+
+void descending(int array[], int size) {
+    for (int step = 1; step < size; step++) {
+        int key = array[step];
+        int j = step - 1;
+        while (key > array[j] && j >= 0) {
+            array[j + 1] = array[j];
+            --j;
+        }
+        array[j + 1] = key;
+    }
+}
+
+void worstfit(int memor[], int process_size[], int part_num, int process_num) {
+    descending(memor, part_num);
+    int interFrag[part_num];
+    for (int i = 0; i < part_num; i++) {
+        interFrag[i] = memor[i];
+    }
+
+    int allocation[part_num];
+    for (int i = 0; i < part_num; i++) {
+        allocation[i] = -1;
+    }
+
+    int flags[part_num];
+    for (int i = 0; i < part_num; i++) {
+        flags[i] = 0;
+    }
+
+    int external_frag = 0;
+
+    for (int i = 0; i < process_num; i++)
+        for (int j = 0; j < part_num; j++)
+            if (flags[j] != 1 && memor[j] >= process_size[i]) {
+                allocation[j] = i;
+                interFrag[j] -= process_size[i];
+                flags[j] = 1;
+                external_frag += interFrag[j];
+                break;
+            }
+
+    printf("\nBlock no. block size process size. internal fragmentation");
+    for (int i = 0; i < part_num; i++) {
+        printf("\n%d\t", memor[i]);
+        if (flags[i] == 1) {
+            printf("%d\t%d", process_size[allocation[i]], interFrag[i]);
+        } else {
+            external_frag += interFrag[i];
+        }
+    }
+    printf("\nexternal fragmentation = %d\n", external_frag);
+}
+
+int main() {
+    int part_num;
+    printf("Enter number of memory partitions: ");
+    scanf("%d", &part_num);
+
+    int memor[part_num];
+    printf("Enter memory partition sizes: ");
+    for (int i = 0; i < part_num; i++) {
+        scanf("%d", &memor[i]);
+    }
+    printf("\n");
+
+    int process_num;
+    printf("Enter number of processes: ");
+    scanf("%d", &process_num);
+    printf("\n");
+
+    int process_size[process_num];
+    printf("Enter size of each process: ");
+    for (int i = 0; i < process_num; i++) {
+        scanf("%d", &process_size[i]);
+    }
+
+    printf("Select which algorithm you want to use: 1 for first fit, 2 for best fit, 3 for worst fit: ");
+    int option;
+    scanf("%d", &option);
+
+    switch (option) {
+        case 1:
+            printf("First Fit\n");
+            firstfit(memor, process_size, part_num, process_num);
+            break;
+        case 2:
+            printf("Best Fit\n");
+            bestfit(memor, process_size, part_num, process_num);
+            break;
+        case 3:
+            printf("Worst Fit\n");
+            worstfit(memor, process_size, part_num, process_num);
+            break;
+    }
+
+    return 0;
+}
