@@ -1,0 +1,165 @@
+// Q) One thread finds prime factors of a number. Another thread finds the nth fibonacci number. Value is to be printed in definition. No return values.
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+void* prime(){
+	printf("prime factors\n");
+	int num = 26;
+	while (num%2==0){
+		printf("%d\n" , 2);
+		num=num/2;
+	}
+	for (int i=3;i<=num; i+=2){
+		while (num%i == 0){
+			printf("%d\n",i);
+			num=num/i;
+		}
+	}
+	if (num>2){
+		printf("%d\n" , num);
+	}
+}
+
+void* fibonacci(){
+	printf("fibonacci number nth term \n");
+	int term = 5;
+	int next = 0;
+	int t1 = 0, t2 = 1;
+	next = t1+t2;
+	for (int i=3;i<=term;i++){
+		t1=t2;
+		t2 = next;
+		next = t1+t2;
+	}
+	printf("%d\n",t2);	
+}
+
+int main(int argc, char* argv[]){
+	pthread_t t1,t2;
+	pthread_create(&t1,NULL, &prime, NULL);
+	pthread_create(&t2,NULL,&fibonacci,NULL);
+	pthread_join(t1,NULL);
+	pthread_join(t2,NULL);
+	return 0;
+}
+
+// Threads with arguments
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+void* rollDice() {
+    int value = (rand()%6) + 1;
+    int* result = malloc(sizeof(int));
+    *result = value;
+    printf("The thread value is: %p.\n", result);
+    return (void*)result;
+}
+
+int main(int argc, char* argv[]) {
+    int* ans;
+    srand(time(NULL));
+    pthread_t th;
+    if(pthread_create(&th, NULL, &rollDice, NULL) != 0) perror("Thread creation failed.\n");
+    if(pthread_join(th, (void**) &ans) != 0) perror("Thread joining failed.\n");
+    printf("Main ans: %p\n", ans);
+    printf("Result: %d\n", *ans);
+    free(ans);
+    return 0;
+}
+
+// Sum of elements of array
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int nums[10] = {1,2,3,4,5,6,7,8,9,10};
+void* routine(void* arg){
+	int index = *(int*)arg;
+	int sum = 0;
+	for (int j=0;j<5;j++){
+		sum +=nums[index+j];
+	}	
+	printf("local sum = %d\n",sum);
+	*(int*) arg = sum;
+	return arg;
+}
+
+int main(int argc, char* argv[]){
+	pthread_t th[2];
+	int i;
+	for (i=0;i<2;i++){
+		int* a = malloc(sizeof(int));
+		*a=i*5;
+		if (pthread_create(&th[i],NULL,&routine,a)!=0){
+			perror("failed to create thread");
+		}
+	}
+	int globalsum = 0;
+	for (i =0;i<2;i++){
+		int* r;
+		if (pthread_join(th[i],(void**) &r)!=0){
+			perror("Failed to join thread");
+		}
+		globalsum+=*r;
+		free(r);
+	}
+	printf("globals sum = %d\n",globalsum);
+	return 0;
+}
+
+//  Sum of elements of an array using structures
+
+#include <pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+ typedef struct data{
+    int* arr;
+    int thread_num;
+} data; 
+int arrSize = 20;
+ 
+void* halfSum(void* p){
+    data* ptr = (data*)p;
+    int n = ptr->thread_num;
+    int* thread_sum = (int*) calloc(1, sizeof(int));
+    
+    if(n == 0){
+        for(int i = 0; i < arrSize/2; i++)
+            thread_sum[0] = thread_sum[0] + ptr->arr[i];
+    }
+    else{
+        for(int i = arrSize/2; i < arrSize; i++)
+            thread_sum[0] = thread_sum[0] + ptr->arr[i];
+    }
+        pthread_exit(thread_sum);  
+}
+ 
+int main(void){
+    // Considering an integer array [2,4,6,8,10,12,14,16,18,20]
+    int* int_arr = (int*) calloc(arrSize, sizeof(int));
+    for(int i = 0; i <= arrSize; i=i+2){
+	int_arr[i] = i + 2;
+    }
+    data thread_data[2];
+    thread_data[0].thread_num = 0;
+    thread_data[0].arr = int_arr;
+    thread_data[1].thread_num = 1;
+    thread_data[1].arr = int_arr;
+    pthread_t tid[2];
+    pthread_create(&tid[0], NULL, halfSum, &thread_data[0]);
+    pthread_create(&tid[1], NULL, halfSum, &thread_data[1]);
+    int* sum0;
+    int* sum1;
+    pthread_join(tid[0], (void**)&sum0);
+    pthread_join(tid[1], (void**)&sum1);
+    printf("Sum of elements of the array = %i\n", *sum0 + *sum1);
+    return 0;
+}
